@@ -20,7 +20,7 @@ RUN set -ex && \
     gpg --batch --verify telegraf-${TELEGRAF_VERSION}_linux_armel.tar.gz.asc telegraf-${TELEGRAF_VERSION}_linux_armel.tar.gz && \
     mkdir -p /usr/src /etc/telegraf && \
     tar -C /usr/src -xzf telegraf-${TELEGRAF_VERSION}_linux_armel.tar.gz && \
-    mv /usr/src/telegraf*/telegraf.conf /etc/telegraf/ && \
+    mv /usr/src/telegraf*/etc/telegraf/telegraf.conf /etc/telegraf/ && \
     chmod +x /usr/src/telegraf*/usr/bin/* && \
     cp -a /usr/src/telegraf*/usr/bin/* /usr/bin/ && \
     rm -rf *.tar.gz* /usr/src /root/.gnupg && \
