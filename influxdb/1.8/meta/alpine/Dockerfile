@@ -1,4 +1,4 @@
-FROM alpine:3.9
+FROM arm32v6/alpine
 
 RUN echo 'hosts: files dns' >> /etc/nsswitch.conf
 RUN apk add --no-cache tzdata bash ca-certificates && \
@@ -14,14 +14,14 @@ RUN set -ex && \
         gpg --keyserver pgp.mit.edu --recv-keys "$key" || \
         gpg --keyserver keyserver.pgp.com --recv-keys "$key" ; \
     done && \
-    wget --no-verbose https://dl.influxdata.com/enterprise/releases/influxdb-meta-${INFLUXDB_VERSION}-static_linux_amd64.tar.gz.asc && \
-    wget --no-verbose https://dl.influxdata.com/enterprise/releases/influxdb-meta-${INFLUXDB_VERSION}-static_linux_amd64.tar.gz && \
-    gpg --batch --verify influxdb-meta-${INFLUXDB_VERSION}-static_linux_amd64.tar.gz.asc influxdb-meta-${INFLUXDB_VERSION}-static_linux_amd64.tar.gz && \
+    wget --no-verbose https://dl.influxdata.com/enterprise/releases/influxdb-meta-${INFLUXDB_VERSION}_linux_armel.tar.gz.asc && \
+    wget --no-verbose https://dl.influxdata.com/enterprise/releases/influxdb-meta-${INFLUXDB_VERSION}_linux_armel.tar.gz && \
+    gpg --batch --verify influxdb-meta-${INFLUXDB_VERSION}_linux_armel.tar.gz.asc influxdb-meta-${INFLUXDB_VERSION}_linux_armel.tar.gz && \
     mkdir -p /usr/src && \
-    tar -C /usr/src -xzf influxdb-meta-${INFLUXDB_VERSION}-static_linux_amd64.tar.gz && \
+    tar -C /usr/src -xzf influxdb-meta-${INFLUXDB_VERSION}_linux_armel.tar.gz && \
     rm -f /usr/src/influxdb-*/influxdb-meta.conf && \
-    chmod +x /usr/src/influxdb-*/* && \
-    cp -a /usr/src/influxdb-*/* /usr/bin/ && \
+    chmod +x /usr/src/influxdb-*/usr/bin/* && \
+    cp -a /usr/src/influxdb-*/usr/bin/* /usr/bin/ && \
     rm -rf *.tar.gz* /usr/src /root/.gnupg && \
     apk del .build-deps
 COPY influxdb-meta.conf /etc/influxdb/influxdb-meta.conf
